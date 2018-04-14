@@ -14,7 +14,6 @@ export class GameService {
   gameStatisticsSubject$ = this.gameStatisticsSubject.asObservable();
 
   constructor() {
-    this.gameStatistics.questionsAsked++;
   }
 
   public answerQuestion(answer: number): boolean {
@@ -24,9 +23,9 @@ export class GameService {
     );
 
     if (correct) {
-      this.gameStatistics.questionsCorrect++;
+      this.gameStatistics.questionsCorrect.push(this.currentQuestion)
     } else {
-      this.gameStatistics.questionsIncorrect++;
+      this.gameStatistics.questionsIncorrect.push(this.currentQuestion);
     }
 
     this.nextQuestion();
@@ -44,7 +43,6 @@ export class GameService {
 
   private nextQuestion(): void {
     this.currentQuestion = this.generateNewQuestion();
-    this.gameStatistics.questionsAsked++;
     this.gameStatisticsSubject.next(this.gameStatistics);
     this.currentQuestionSubject.next(this.currentQuestion);
   }

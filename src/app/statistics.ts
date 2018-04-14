@@ -1,5 +1,18 @@
+import { Question } from "./question";
+
 export class Statistics {
-    questionsAsked: number = 0;
-    questionsCorrect: number = 0;
-    questionsIncorrect: number = 0;
+    questionsCorrect: Array<Question> = [];
+    questionsIncorrect: Array<Question> = [];
+
+    get numberQuestionsAsked(): number {
+        return this.numberQuestionsCorrect + this.numberQuestionsIncorrect;
+    }
+
+    get numberQuestionsCorrect(): number {
+        return this.questionsCorrect.length;
+    }
+
+    get numberQuestionsIncorrect(): number {
+        return this.questionsIncorrect.length;
+    }
 }

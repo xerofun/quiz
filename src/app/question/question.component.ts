@@ -36,8 +36,8 @@ export class QuestionComponent implements OnInit {
     });
 
     this.gameService.gameStatisticsSubject$.subscribe(s => {
-      this.questionsCorrect = s.questionsCorrect;
-      this.questionsAsked = s.questionsAsked;
+      this.questionsCorrect = s.numberQuestionsCorrect;
+      this.questionsAsked = s.numberQuestionsAsked;
     });
   } 
 
