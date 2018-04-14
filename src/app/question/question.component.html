@@ -25,7 +25,10 @@
     </mat-card>
     <mat-card class="answer">
       <mat-form-field>
-        <input matInput [(ngModel)]="answer" (keyup.enter)="answerQuestion()" type="number">
+        <input  matInput
+                [(ngModel)]="answer"
+                [disabled]="!inProgress"
+                (keyup.enter)="answerQuestion()" type="number">
       </mat-form-field>
     </mat-card>
   </div>

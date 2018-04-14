@@ -28,7 +28,8 @@ export class QuestionComponent implements OnInit {
 
   ngOnInit() {
     this.generateNewQuestion();
-  }
+    this.startTimer();
+  } 
 
   answerQuestion() {
     this.questionsAsked++;
