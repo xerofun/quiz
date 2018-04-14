@@ -3,6 +3,8 @@ import { timer } from 'rxjs/observable/timer';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { Router } from '@angular/router';
+import { GameService } from '../game.service';
+import { Question } from '../question';
 
 @Component({
   selector: 'app-question',
@@ -11,8 +13,8 @@ import { Router } from '@angular/router';
 })
 export class QuestionComponent implements OnInit {
   private maxTime = 6;
-  private leftOperand: number;
-  private rightOperand: number;
+
+  private question: Question;
   private answer: number;
 
   private lastQuestionCorrect = "";
@@ -23,32 +25,29 @@ export class QuestionComponent implements OnInit {
   private inProgress = false;
   private timerSubscription: Subscription;
 
-  private incorrectProblems = new Array<string>();
-
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+    private gameService: GameService) {
+  }
 
   ngOnInit() {
-    this.generateNewQuestion();
-    this.startTimer();
+    this.gameService.currentQuestionSubject$.subscribe(q => {
+      this.question = q;
+      this.startTimer();
+    });
   } 
 
   answerQuestion() {
     this.questionsAsked++;
-    if (this.leftOperand + this.rightOperand == this.answer) {
+    const correct = this.gameService.answerQuestion(this.answer);
+
+    if (correct) {
       this.lastQuestionCorrect = "Correct";
       this.questionsCorrect++;
     } else {
       this.lastQuestionCorrect = "Incorrect";
-      this.incorrectProblems.push(this.leftOperand + "+" + this.rightOperand + "=" + this.answer);
     }
 
     this.answer = null;
-    this.generateNewQuestion();
-  }
-
-  generateNewQuestion() {
-    this.leftOperand = Math.floor(Math.random() * 13);
-    this.rightOperand = Math.floor(Math.random() * 13);
   }
 
   startTimer() {
