@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { timer } from 'rxjs/observable/timer';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-question',
@@ -9,7 +10,7 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./question.component.sass']
 })
 export class QuestionComponent implements OnInit {
-  private maxTime = 60;
+  private maxTime = 6;
   private leftOperand: number;
   private rightOperand: number;
   private answer: number;
@@ -24,7 +25,7 @@ export class QuestionComponent implements OnInit {
 
   private incorrectProblems = new Array<string>();
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
     this.generateNewQuestion();
@@ -36,9 +37,7 @@ export class QuestionComponent implements OnInit {
     if (this.leftOperand + this.rightOperand == this.answer) {
       this.lastQuestionCorrect = "Correct";
       this.questionsCorrect++;
-      console.log("Correct!");
     } else {
-      console.log(this.answer + " is Incorrect");
       this.lastQuestionCorrect = "Incorrect";
       this.incorrectProblems.push(this.leftOperand + "+" + this.rightOperand + "=" + this.answer);
     }
@@ -54,11 +53,9 @@ export class QuestionComponent implements OnInit {
 
   startTimer() {
     if (!this.inProgress) {
-      console.log(`starting timer`);
       this.inProgress = true;
       this.timerSubscription = timer(0, 1000)
         .subscribe(val => {
-          console.log(`current time: ${val}`);
           if (val >= this.maxTime) {
             this.timerSubscription.unsubscribe();
             this.inProgress = false;
@@ -66,5 +63,9 @@ export class QuestionComponent implements OnInit {
           this.timeRemaining = this.maxTime - val;
         });
     }
+  }
+
+  viewResults() {
+    this.router.navigateByUrl("/results");
   }
 }

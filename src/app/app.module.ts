@@ -10,17 +10,21 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { MenuComponent } from './menu/menu.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { ResultsComponent } from './results/results.component';
 
 
 const appRoutes: Routes = [
   {path: '', component: MenuComponent},
-  {path: 'game', component: QuestionComponent}
+  {path: 'game', component: QuestionComponent},
+  {path: 'results', component: ResultsComponent}
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     QuestionComponent,
+    ResultsComponent,
     MenuComponent
   ],
   imports: [
