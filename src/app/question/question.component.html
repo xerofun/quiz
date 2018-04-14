@@ -1,0 +1,38 @@
+<mat-card>
+  <mat-card-title class="container">
+    <mat-card *ngIf="lastQuestionCorrect">
+      {{lastQuestionCorrect}}
+    </mat-card>
+    <mat-card>
+      {{timeRemaining}}
+    </mat-card>
+    <mat-card style="margin-left: auto">
+      {{questionsCorrect}} out of {{questionsAsked}}
+    </mat-card>
+  </mat-card-title>
+  <div class="container">
+    <mat-card class="operand">
+      <mat-card-content>{{leftOperand}}</mat-card-content>
+    </mat-card>
+    <mat-card class="operator">
+      <mat-card-content>+</mat-card-content>
+    </mat-card>
+    <mat-card class="operand">
+      <mat-card-content>{{rightOperand}}</mat-card-content>
+    </mat-card>
+    <mat-card class="equals">
+        <mat-card-content>=</mat-card-content>
+    </mat-card>
+    <mat-card class="answer">
+      <mat-form-field>
+        <input matInput [(ngModel)]="answer" (keyup.enter)="answerQuestion()" type="number">
+      </mat-form-field>
+    </mat-card>
+  </div>
+  <button [disabled]="inProgress" (click)="startTimer()">Start Over</button>
+  <ol>
+    <li *ngFor="let incorrectProblem of incorrectProblems">
+      {{incorrectProblem}}
+    </li>
+  </ol>
+</mat-card>
