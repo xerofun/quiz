@@ -34,15 +34,18 @@ export class QuestionComponent implements OnInit {
       this.question = q;
       this.startTimer();
     });
+
+    this.gameService.gameStatisticsSubject$.subscribe(s => {
+      this.questionsCorrect = s.questionsCorrect;
+      this.questionsAsked = s.questionsAsked;
+    });
   } 
 
   answerQuestion() {
-    this.questionsAsked++;
     const correct = this.gameService.answerQuestion(this.answer);
 
     if (correct) {
       this.lastQuestionCorrect = "Correct";
-      this.questionsCorrect++;
     } else {
       this.lastQuestionCorrect = "Incorrect";
     }

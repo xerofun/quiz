@@ -1,21 +1,33 @@
 import { Injectable } from '@angular/core';
 import { Question } from './question';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Statistics } from './statistics';
 
 @Injectable()
 export class GameService {
   private currentQuestion: Question = this.generateNewQuestion();
   private currentQuestionSubject = new BehaviorSubject<Question>(this.currentQuestion);
-  
   currentQuestionSubject$ = this.currentQuestionSubject.asObservable();
+  
+  private gameStatistics = new Statistics();
+  private gameStatisticsSubject = new BehaviorSubject<Statistics>(this.gameStatistics);
+  gameStatisticsSubject$ = this.gameStatisticsSubject.asObservable();
 
-  constructor() { }
+  constructor() {
+    this.gameStatistics.questionsAsked++;
+  }
 
   public answerQuestion(answer: number): boolean {
     const correct = answer === this.currentQuestion.operator(
       this.currentQuestion.leftOperand,
       this.currentQuestion.rightOperand
     );
+
+    if (correct) {
+      this.gameStatistics.questionsCorrect++;
+    } else {
+      this.gameStatistics.questionsIncorrect++;
+    }
 
     this.nextQuestion();
 
@@ -32,6 +44,8 @@ export class GameService {
 
   private nextQuestion(): void {
     this.currentQuestion = this.generateNewQuestion();
+    this.gameStatistics.questionsAsked++;
+    this.gameStatisticsSubject.next(this.gameStatistics);
     this.currentQuestionSubject.next(this.currentQuestion);
   }
 }
