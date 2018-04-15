@@ -1,0 +1,10 @@
+<mat-card>
+  <mat-nav-list>
+    <a *ngFor="let operator of gameSettingsService.operators" mat-list-item (click)="setOperator(operator)">
+      {{operator.name}}
+    </a>
+    <a mat-list-item routerLink="" routerLinkActive="active">
+      Back
+    </a>
+  </mat-nav-list>
+</mat-card>

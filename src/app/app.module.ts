@@ -14,12 +14,15 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { ResultsComponent } from './results/results.component';
 import { GameService } from './game.service';
 import { StatisticsService } from './statistics.service';
+import { GameSettingsService } from './game-settings.service';
+import { SettingsComponent } from './settings/settings.component';
 
 
 const appRoutes: Routes = [
   {path: '', component: MenuComponent},
   {path: 'game', component: QuestionComponent},
-  {path: 'results', component: ResultsComponent}
+  {path: 'results', component: ResultsComponent},
+  {path: 'settings', component: SettingsComponent}
 ];
 
 @NgModule({
@@ -27,6 +30,7 @@ const appRoutes: Routes = [
     AppComponent,
     QuestionComponent,
     ResultsComponent,
+    SettingsComponent,
     MenuComponent
   ],
   imports: [
@@ -44,7 +48,7 @@ const appRoutes: Routes = [
     MatInputModule,
     MatListModule
   ],
-  providers: [GameService, StatisticsService],
+  providers: [GameService, GameSettingsService, StatisticsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -4,13 +4,13 @@
 <mat-list>
     <h3>{{numberQuestionsCorrect}} Questions Correct</h3>
     <mat-list-item role="listitem" *ngFor="let correct of questionsCorrect">
-        {{correct.leftOperand}} + {{correct.rightOperand}}
+        {{correct.leftOperand}} {{correct.operator.symbol}} {{correct.rightOperand}}
     </mat-list-item>
 </mat-list>
 <mat-list>
     <h3>{{numberQuestionsIncorrect}} Questions Incorrect</h3>
     <mat-list-item role="listitem" *ngFor="let correct of questionsIncorrect">
-        {{correct.leftOperand}} + {{correct.rightOperand}}
+        {{correct.leftOperand}} {{correct.operator.symbol}} {{correct.rightOperand}}
     </mat-list-item>
 </mat-list>
 

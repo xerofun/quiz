@@ -3,6 +3,8 @@ import { Question } from './question';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Statistics } from './statistics';
 import { StatisticsService } from './statistics.service';
+import { GameSettingsService } from './game-settings.service';
+import { Operator } from './operator';
 
 @Injectable()
 export class GameService {
@@ -14,11 +16,17 @@ export class GameService {
   private gameStatisticsSubject = new BehaviorSubject<Statistics>(this.gameStatistics);
   gameStatisticsSubject$ = this.gameStatisticsSubject.asObservable();
 
-  constructor(private statisticsService: StatisticsService) {
+  private operator: Operator;
+
+  constructor(private statisticsService: StatisticsService, private gameSettingsService: GameSettingsService) {
+    this.gameSettingsService.operatorSubject$.subscribe(o => {
+      this.operator = o;
+      this.nextQuestion();
+    })
   }
 
   public answerQuestion(answer: number): boolean {
-    const correct = answer === this.currentQuestion.operator(
+    const correct = answer === this.currentQuestion.operator.func(
       this.currentQuestion.leftOperand,
       this.currentQuestion.rightOperand
     );
@@ -35,7 +43,6 @@ export class GameService {
   }
 
   public endGame() {
-    console.log("Recording statistics");
     this.statisticsService.recordGameStatistics(+new Date(), this.gameStatistics);
   }
 
@@ -48,7 +55,7 @@ export class GameService {
     const question = new Question();
     question.leftOperand = Math.floor(Math.random() * 13);
     question.rightOperand = Math.floor(Math.random() * 13);
-    question.operator = (a, b) => a + b;
+    question.operator = this.operator;
     return question;
   }
 

@@ -1,5 +1,7 @@
+import { Operator } from "./operator";
+
 export class Question {
     leftOperand: number;
     rightOperand: number;
-    operator: (left: number, right: number) => number;
+    operator: Operator;
 }

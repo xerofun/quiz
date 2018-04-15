@@ -65,9 +65,7 @@ export class QuestionComponent implements OnInit, AfterViewInit {
       this.inProgress = true;
       this.timerSubscription = timer(0, 1000)
         .subscribe(val => {
-          console.log(`tick ${val}`);
           if (val >= this.maxTime) {
-            console.log("Times up!");
             this.timerSubscription.unsubscribe();
             this.inProgress = false;
             this.gameService.endGame();
