@@ -35,6 +35,7 @@ export class GameService {
   }
 
   public endGame() {
+    console.log("Recording statistics");
     this.statisticsService.recordGameStatistics(+new Date(), this.gameStatistics);
   }
 

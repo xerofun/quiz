@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { timer } from 'rxjs/observable/timer';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -11,8 +11,10 @@ import { Question } from '../question';
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.sass']
 })
-export class QuestionComponent implements OnInit {
-  private maxTime = 6;
+export class QuestionComponent implements OnInit, AfterViewInit {
+  @ViewChild("answerInput") answerInputRef: ElementRef;
+
+  private maxTime = 4;
 
   private question: Question;
   private answer: number;
@@ -29,17 +31,22 @@ export class QuestionComponent implements OnInit {
     private gameService: GameService) {
   }
 
+  ngAfterViewInit(): void {
+    this.answerInputRef.nativeElement.focus();
+  }
+
   ngOnInit() {
     this.gameService.currentQuestionSubject$.subscribe(q => {
       this.question = q;
-      this.startTimer();
     });
 
     this.gameService.gameStatisticsSubject$.subscribe(s => {
       this.questionsCorrect = s.numberQuestionsCorrect;
       this.questionsAsked = s.numberQuestionsAsked;
     });
-  } 
+
+    this.startTimer();
+  }
 
   answerQuestion() {
     const correct = this.gameService.answerQuestion(this.answer);
@@ -58,7 +65,9 @@ export class QuestionComponent implements OnInit {
       this.inProgress = true;
       this.timerSubscription = timer(0, 1000)
         .subscribe(val => {
+          console.log(`tick ${val}`);
           if (val >= this.maxTime) {
+            console.log("Times up!");
             this.timerSubscription.unsubscribe();
             this.inProgress = false;
             this.gameService.endGame();
