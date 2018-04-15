@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Question } from './question';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Statistics } from './statistics';
+import { StatisticsService } from './statistics.service';
 
 @Injectable()
 export class GameService {
@@ -13,7 +14,7 @@ export class GameService {
   private gameStatisticsSubject = new BehaviorSubject<Statistics>(this.gameStatistics);
   gameStatisticsSubject$ = this.gameStatisticsSubject.asObservable();
 
-  constructor() {
+  constructor(private statisticsService: StatisticsService) {
   }
 
   public answerQuestion(answer: number): boolean {
@@ -31,6 +32,15 @@ export class GameService {
     this.nextQuestion();
 
     return correct;
+  }
+
+  public endGame() {
+    this.statisticsService.recordGameStatistics(+new Date(), this.gameStatistics);
+  }
+
+  public startGame() {
+    this.gameStatistics = new Statistics();
+    this.gameStatisticsSubject.next(this.gameStatistics);
   }
 
   private generateNewQuestion(): Question {

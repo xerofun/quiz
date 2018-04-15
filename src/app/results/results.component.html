@@ -1,1 +1,17 @@
+<mat-card>
+    {{numberQuestionsCorrect}} out of {{numberQuestions}}
+</mat-card>
+<mat-list>
+    <h3>{{numberQuestionsCorrect}} Questions Correct</h3>
+    <mat-list-item role="listitem" *ngFor="let correct of questionsCorrect">
+        {{correct.leftOperand}} + {{correct.rightOperand}}
+    </mat-list-item>
+</mat-list>
+<mat-list>
+    <h3>{{numberQuestionsIncorrect}} Questions Incorrect</h3>
+    <mat-list-item role="listitem" *ngFor="let correct of questionsIncorrect">
+        {{correct.leftOperand}} + {{correct.rightOperand}}
+    </mat-list-item>
+</mat-list>
+
 <button mat-button (click)="gotoMenu()">Menu</button>

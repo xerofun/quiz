@@ -61,6 +61,7 @@ export class QuestionComponent implements OnInit {
           if (val >= this.maxTime) {
             this.timerSubscription.unsubscribe();
             this.inProgress = false;
+            this.gameService.endGame();
           }
           this.timeRemaining = this.maxTime - val;
         });

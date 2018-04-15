@@ -13,6 +13,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { ResultsComponent } from './results/results.component';
 import { GameService } from './game.service';
+import { StatisticsService } from './statistics.service';
 
 
 const appRoutes: Routes = [
@@ -43,7 +44,7 @@ const appRoutes: Routes = [
     MatInputModule,
     MatListModule
   ],
-  providers: [GameService],
+  providers: [GameService, StatisticsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

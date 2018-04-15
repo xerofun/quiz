@@ -1,6 +1,6 @@
 <mat-card>
   <mat-nav-list>
-    <a mat-list-item routerLink="/game" routerLinkActive="active">
+    <a mat-list-item (click)="newGame()" routerLink="/game" routerLinkActive="active">
       New Game!
     </a>
     <a mat-list-item routerLink="/setup">
